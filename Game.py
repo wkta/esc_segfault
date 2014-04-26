@@ -9,7 +9,7 @@ DISP_HEIGHT = 600
 
 class Game:
     """ permet de faire tourner le jeu avec boucles d'evenement et gestion de l'etat du jeu"""
-    pl = Player()
+    pl = None
     window = None
 
     ST_INTRO = 0
@@ -18,7 +18,7 @@ class Game:
 
     def __init__(self):
         pygame.init()
-        Game.pl = Player()
+        Game.pl = Player( 0, 0 )  #TODO osition realiste
         Game.window = pygame.display.set_mode( (DISP_WIDTH, DISP_HEIGHT) )
         self.state = Game.ST_PLATEFORMER
 

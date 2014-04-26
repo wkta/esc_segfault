@@ -1,3 +1,7 @@
+import pygame
+from GameEntity import GameEntity
+from DynamicLevel import DynamicLevel 
+
 class Player(GameEntity):
     BASECOLOR = pygame.Color('darkred')
     BASE_SPEED = 2
