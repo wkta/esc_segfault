@@ -1,0 +1,27 @@
+
+ESTHÉTIQUE:
+
+		façon TRON, références geek blocs de code python qui tombent du haut de l'écran
+
+MÉCANIQUES DE JEU:
+
+		clics sur blocs de code pour activer les compétences spéciales
+		pour sauter/se déplacer/téléporter etc
+		deux possibilités :
+			- collectionner les blocs qui sont "jetables" une fois utilisés, faut en attendre d'autres
+			- les compétences restent utilisables tant qu'on les perd pas
+
+HISTOIRE:
+
+		le PJ doit sauver une princesse dans un décor féerique,
+		mais alors qu'il commence sa quête, il saute sur une plateforme
+		buggée et tombe au find fond du code,
+		dans le gouffre de la RAM et des bugs.
+		Ils doit remonter à la surface du programme en récupérant
+		des instructions (move, jump, screwGravity(), etc. )
+		qui vont lui permettre d'évoluer vers le haut de l'écran
+
+TECHNOLOGIE:
+
+		utilisation de Python+Pygame, graphismes 2D
+		on va utiliser la génération de terrain pour placer les plateformes, etc.
