@@ -31,6 +31,8 @@ class Game:
         """gere la boucle d'evenements"""
         prog_done = False
         while not prog_done:
+            self.refreshScreen()
+
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT: 
                     prog_done = True
@@ -39,10 +41,22 @@ class Game:
                     if event.key == pygame.K_SPACE:
                         Game.pl.jump()
                     if event.key == pygame.K_RIGHT:
-                        Game.pl.moveRight()
+                        Game.pl.startMovingRight()
+                    if event.key == pygame.K_LEFT:
+                        Game.pl.startMovingLeft()
+
+                if event.type is pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
-                        Game.pl.moveRight()
-                    elected_item = (selected_item +1) % 3 
+                        Game.pl.stopMoving()
+                    if event.key == pygame.K_LEFT:
+                        Game.pl.stopMoving()
+            Game.pl.updatePosition()
+
+    def refreshScreen(self ):
+        Game.window.fill(  pygame.Color('BLACK') )
+        Game.pl.markToDisplay( Game.window ) 
+        pygame.display.flip() 
+          
 
 g = Game()
 g.run()
