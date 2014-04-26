@@ -4,8 +4,8 @@ import pygame
 from Player import Player
 from time import sleep
 
-DISP_WIDTH = 1024
-DISP_HEIGHT = 600
+from global_vars import *
+
 
 class Game:
     """ permet de faire tourner le jeu avec boucles d'evenement et gestion de l'etat du jeu"""
@@ -18,7 +18,7 @@ class Game:
 
     def __init__(self):
         pygame.init()
-        Game.pl = Player( 0, 0 )  #TODO osition realiste
+        Game.pl = Player( 0, 0 )  #TODO :  position realiste
         Game.window = pygame.display.set_mode( (DISP_WIDTH, DISP_HEIGHT) )
         self.state = Game.ST_PLATEFORMER
 
@@ -55,6 +55,8 @@ class Game:
     def refreshScreen(self ):
         Game.window.fill(  pygame.Color('BLACK') )
         Game.pl.markToDisplay( Game.window ) 
+        # TODO cest le joueur qui pourrait declencher le declencehement du dessin du terrain
+        Game.pl.environ.markToDisplay( Game.window )
         pygame.display.flip() 
           
 
