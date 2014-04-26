@@ -1,6 +1,7 @@
 import pygame
 from GameEntity import GameEntity
 from DynamicLevel import DynamicLevel 
+from global_vars import *
 
 class Player(GameEntity):
     BASECOLOR = pygame.Color('darkred')
@@ -36,6 +37,10 @@ class Player(GameEntity):
         self.moving_right = False
         self.moving_left  = False
 
+    def setY( self, new_y ):
+        self.y_game = new_y
+        self.environ.scrollTo( new_y)
+
     def updatePosition(self):
 
         if not (self.moving_right or self.moving_left):
@@ -56,7 +61,10 @@ class Player(GameEntity):
             #self.vy -= (Player.GRAVITE*self.time_in_air/Player.RALENTI)
             #self.y_game += self.vy * self.time_in_air/Player.RALENTI - (Player.GRAVITE*(self.time_in_air/Player.RALENTI)*(self.time_in_air/Player.RALENTI))/2
             self.vy += (Player.GRAVITE/Player.RALENTI)
-            self.y_game -= self.vy / Player.RALENTI - (Player.GRAVITE*(1./Player.RALENTI)*(self.time_in_air/Player.RALENTI))/2
+            self.setY( self.y_game - \
+                self.vy / Player.RALENTI - (Player.GRAVITE*(1./Player.RALENTI)*(self.time_in_air/Player.RALENTI))/2
+                )
+
             self.y_screen = self.y_game
             self.time_in_air += 1.
             print(self.y_game, self.time_in_air)
@@ -79,6 +87,7 @@ class Player(GameEntity):
         print "yoyo"
 
     def markToDisplay(self, surface):
+        x_screen, y_screen= game_to_scr_coord( self.x_game, self.y_game, self.y_game)
         pygame.draw.circle( surface, pygame.Color('RED') ,
-            (int(self.x_game ),int(self.y_game )), Player.SIZE) 
+            (x_screen, y_screen), Player.SIZE) 
 

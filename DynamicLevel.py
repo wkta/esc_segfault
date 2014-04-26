@@ -31,4 +31,4 @@ class DynamicLevel:
 
     def markToDisplay( self, window):
         for ent in self.entity_list:
-            ent.markToDisplay(window)
+            ent.markToDisplay(window, self.pl_y_game )

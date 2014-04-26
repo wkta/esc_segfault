@@ -6,7 +6,7 @@ class Platform:
 		self.x_game = x_game
 		self.y_game = y_game	
 	
-	def markToDisplay(self, window):
-		x_screen, y_screen = game_to_scr_coord( self.x_game, self.y_game )
+	def markToDisplay(self, window, pl_y_game):
+		x_screen, y_screen = game_to_scr_coord( self.x_game, self.y_game, pl_y_game )
 		pygame.draw.rect( window, pygame.Color('BLUE'),
 			pygame.Rect(x_screen, y_screen, 128,32)  )
