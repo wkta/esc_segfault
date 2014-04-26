@@ -11,4 +11,11 @@ class MobileEnt(GameEntity):
 		self.x, self.y = x, y
 		pass
 
-	
+	def get_pos(self):
+		return(self.x, self.y)
+
+	def set_vect(self, vx, vy):
+		self.vx, self.vy = vx, vy
+
+	def get_vect(self):
+		return(self.vx, self.vy)
