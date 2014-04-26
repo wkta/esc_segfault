@@ -35,6 +35,14 @@ class Game:
                 if event.type == pygame.QUIT: 
                     prog_done = True
                     break 
+                if event.type is pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        Game.pl.jump()
+                    if event.key == pygame.K_RIGHT:
+                        Game.pl.moveRight()
+                    if event.key == pygame.K_RIGHT:
+                        Game.pl.moveRight()
+                    elected_item = (selected_item +1) % 3 
 
 g = Game()
 g.run()
