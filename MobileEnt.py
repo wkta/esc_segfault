@@ -28,15 +28,19 @@ class MobileEnt(GameEntity):
 	def get_color(self):
 		return self.color
 
-	def set_size(self, size):#tuple size attendu
+	def set_size(self, size): #tuple size attendu
 		self.w, self.h = size
 		pass
 
 	def get_size(self):
 		return self.w, self.h
 
-	def set_vect(self, vector):#tuple vector attendu
-		self.vx, self.vy = vector
+	def set_vect_x(self, vector_x, vector_y):
+		self.vx = vector_x
+		pass
+
+	def set_vect_y(self, vector_y):
+		self.vy = vector_y
 		pass
 
 	def get_vect(self):
@@ -47,19 +51,19 @@ class MobileEnt(GameEntity):
 		self.y_game += self.vy
 		pass
 
-	def set_init_pos(self, init_x, init_y):
-		self.__INIT_X, self.__INIT_Y = init_x, init_y
+	def set_init_pos(self, pos_init):
+		self.__POS_INIT__ = pos_init
 		pass
 
 	def get_init_pos(self):
-		return(self.__INIT_X, __INIT_Y)
+		return(self.__POS_INIT__)
 
-	def set_movement(self, range_x, range_y):
-		self.x_movement, self.y_movement = range_x, range_y
+	def set_movement(self, range_xy): #tuple range x et y attendu
+		self.movement = range_xy
 		pass
 
 	def get_movement(self):
-		return(self.x_movement, self.y_movement)
+		return(self.movement)
 
 	def markToDisplay(self, window, pl_y_game):
 		x, y = self.get_pos()
