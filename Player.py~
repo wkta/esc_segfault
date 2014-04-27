@@ -22,7 +22,7 @@ class Player(GameEntity):
         self.moving_right = self.moving_left = False
         self.in_air = False
         self.time_in_air = 0.
-        self.initGraphics('ludumdare-croquis-chevalier.png',6., -64, -185)
+        # self.img = 
 
     def startMovingRight(self):
         self.moving_right = True
@@ -35,18 +35,17 @@ class Player(GameEntity):
         self.moving_left  = False
 
     def setXY( self, new_x, new_y ):
-        #super(Player,self).setXY(new_x, new_y )
-        GameEntity.setXY(self, new_x, new_y)
+        self.x_game = new_x
+        self.y_game = new_y
         self.environ.scrollTo( new_y)
 
     def updatePosition(self):
-        self.environ.updateEntities()
 
         #accelerating horizontaly
         if( self.moving_right ):
             if( not abs(self.vx)>V_MAX_HORZ):
                 self.vx +=  DELTA_V_HORZ
-            if(self.vx + self.x_game + self.getWidth() > DISP_WIDTH - SIZE_SK_BAR ): #collision bord droit
+            if(self.vx + self.x_game >= DISP_WIDTH ): #collision bord
                 self.vx = 0
         elif( self.moving_left):
             if( not abs(self.vx)>V_MAX_HORZ):
@@ -89,5 +88,7 @@ class Player(GameEntity):
         self.in_air = True
 
     def markToDisplay(self, surface):
-        super(Player,self).markToDisplay(surface, self.y_game )
+        x_screen, y_screen= game_to_scr_coord( self.x_game, self.y_game, self.y_game)
+        pygame.draw.circle( surface, pygame.Color('RED') ,
+            (x_screen, y_screen), Player.SIZE) 
 
