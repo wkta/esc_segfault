@@ -46,7 +46,7 @@ class Player(GameEntity):
         if( self.moving_right ):
             if( not abs(self.vx)>V_MAX_HORZ):
                 self.vx +=  DELTA_V_HORZ
-            if(self.vx + self.x_game >= DISP_WIDTH ): #collision bord
+            if(self.vx + self.x_game + self.getWidth() > DISP_WIDTH - SIZE_SK_BAR ): #collision bord droit
                 self.vx = 0
         elif( self.moving_left):
             if( not abs(self.vx)>V_MAX_HORZ):
@@ -89,7 +89,4 @@ class Player(GameEntity):
 
     def markToDisplay(self, surface):
         super(Player,self).markToDisplay(surface, self.y_game )
-        #x_screen, y_screen= game_to_scr_coord( self.x_game, self.y_game, self.y_game)
-        #pygame.draw.circle( surface, pygame.Color('RED') ,
-        #    (x_screen, y_screen), Player.SIZE) 
 
