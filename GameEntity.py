@@ -11,12 +11,15 @@ loaded_data_img = dict()
 class GameEntity(object):
     """sert a decrire une entite du jeu"""
 
+    DEF_WIDTH, DEF_HEIGHT = 40,40
+
     #TODO :faut -il avoir un x, y _jeu dans cette classe ?
 
 
     def __init__(self ):
 #, fich_img, resize_fact = 1. ):
         self.image = None
+        self.rect = pygame.Rect(0,0,GameEntity.DEF_WIDTH, GameEntity.DEF_HEIGHT)
         self.offset_x , self.offset_y = 0,0
         self.way = "left"
         self.visible = True
@@ -40,6 +43,11 @@ class GameEntity(object):
         self.offset_x = offset_x
         self.offset_y = offset_y
 
+    def getWidth(self):
+        if(self.image !=None):
+            return self.rect.width
+        return 128
+
     def changeWay(self):
         self.image = pygame.transform.flip(self.image, 1, 0)
 
@@ -51,7 +59,7 @@ class GameEntity(object):
             return True
 
     def getRect(self):
-        pass
+        return self.rect
 
     def setXY(self, new_x, new_y ):
         self.x_game = new_x
@@ -62,8 +70,14 @@ class GameEntity(object):
 
     def markToDisplay(self, window, pl_y_game ):
         x_screen, y_screen = game_to_scr_coord(self.x_game, self.y_game, pl_y_game)
+        # affichage du rect pour debug collisions
+        if DEBUG_RECTS:
+            pygame.draw.rect(window, pygame.Color('RED') ,
+                (x_screen, y_screen-self.getRect().height, self.getRect().width, self.getRect().height ) )
+
+        # affichage objet en lui meme
         if(self.image==None):
-            pygame.draw.rect( window, pygame.Color('BROWN'), pygame.Rect(x_screen, y_screen, 40,40)  )
+            pygame.draw.rect( window, pygame.Color('BROWN'), pygame.Rect(x_screen, y_screen-40, 40,40)  )
             return
         window.blit( self.image,
             (x_screen+self.offset_x, y_screen+self.offset_y ) ) 

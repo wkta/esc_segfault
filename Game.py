@@ -2,6 +2,7 @@
 
 import pygame
 from Player import Player
+from SkillBar import SkillBar 
 from time import sleep
 
 from global_vars import *
@@ -20,6 +21,7 @@ class Game:
     def __init__(self):
         pygame.init()
         Game.pl = Player( 0, 0 )  #TODO :  position realiste
+        Game.sk_bar = SkillBar( Game.pl )
         Game.window = pygame.display.set_mode( (DISP_WIDTH, DISP_HEIGHT) )
         self.state = Game.ST_PLATEFORMER
         self.x_plat_list = list()
@@ -83,6 +85,7 @@ class Game:
     def refreshScreen(self ):
         Game.window.fill(  pygame.Color('BurlyWood') )
         Game.pl.markToDisplay( Game.window ) 
+        Game.sk_bar.markToDisplay(Game.window)
         # TODO cest le joueur qui pourrait declencher le declencehement du dessin du terrain
         Game.pl.environ.markToDisplay( Game.window )
         pygame.display.flip() 
