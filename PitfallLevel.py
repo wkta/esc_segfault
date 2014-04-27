@@ -1,4 +1,5 @@
 from Level import Level
+from Matrix import Matrix
 import pygame
 from global_vars import *
 from SkillBox import SkillBox
@@ -11,8 +12,13 @@ class PitfallLevel(Level):
 
     def __init__(self):
         self.debut_descente = pygame.time.get_ticks()
-        self.val_fin_chute = self.debut_descente + 2000
+        self.val_fin_chute = self.debut_descente + 5000
         self.entity_list = list()
+        #ajout d'entites fait ici, mais a modifier
+        i = 0
+        while i < 60:
+            self.entity_list.append(Matrix())
+            i += 1
         self.x_plat_list = list()
         self.y_plat_list = list()
         self.current_bonus = SkillBox(-1000,-1000)
@@ -24,9 +30,15 @@ class PitfallLevel(Level):
         return False
 
     def updateEntities(self ):
+        for el in self.entity_list:
+            el.update()
         pass
 
     def markToDisplay(self, window ):
-        # affichage du rect pour debug collisions
-        pygame.draw.rect(window, pygame.Color('YELLOW'),
-            (0, 0, DISP_WIDTH, DISP_HEIGHT)  )
+        # affichage d'un fond noir puis blit dessus des lettres
+        background = pygame.Surface(window.get_size())
+        background = background.convert()
+        background.fill((0, 0, 0))
+        window.blit(background, (0, 0))
+        for el in self.entity_list:
+            el.markToDisplay(window)
