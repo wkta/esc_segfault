@@ -1,5 +1,6 @@
 import pygame
 from GameEntity import GameEntity
+from PitfallLevel import PitfallLevel 
 from DynamicLevel import DynamicLevel 
 from global_vars import *
 
@@ -14,8 +15,11 @@ class Player(GameEntity):
     GRAVITE = 2.
     RALENTI = 16.
 
+    def setEnviron(self, env):
+        self.environ = env
+
     def __init__(self, x_game, y_game ):
-        self.environ = DynamicLevel()
+        self.environ=PitfallLevel()
         self.setXY(x_game,y_game )
         self.YINIT = self.y_game
         self.vx, self.vy = 0., 0.

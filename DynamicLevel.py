@@ -4,13 +4,15 @@ from Platform import Platform
 from global_vars import *
 from SkillBox import SkillBox
 
-class DynamicLevel:
+from Level import Level 
+
+class DynamicLevel(Level):
     """modelise le decor en gerant le scrolling  pour quil soit toujours centre sur le joueur"""
 
     VIT_MAX_SCROLLING = 40
 
     def __init__(self):
-        self.entity_list = list()
+        super(DynamicLevel,self).__init__()
         self.amount_scroll = 0.
         self.vit_scrolling = 0.
         self.pl_y_game = 30. # le joueur commence au niveau 0
@@ -65,6 +67,7 @@ class DynamicLevel:
 
     def generatePlatform(self, x_game_start, y_game):
         new_plat = Platform( x_game_start,  y_game)
+<<<<<<< HEAD
         self.entity_list.append( new_plat)
         
     def removePlatform(self, plat_to_remove):
@@ -72,11 +75,13 @@ class DynamicLevel:
         
     def removeAllPlatform(self):
         self.entity_list = list()
+=======
+        self.addEntity( new_plat)
+>>>>>>> 0604c3253399a5aafbb15534e8762e39b54df739
 
     def markToDisplay( self, window):
-        #affichage des plateformes
-        for ent in self.entity_list:
-            ent.markToDisplay(window,self.pl_y_game)
+        super(DynamicLevel,self).markToDisplay( window)
+
         #affichage du sol
         x_screen, y_screen = game_to_scr_coord( 0,0, self.pl_y_game )
         pygame.draw.rect( window, pygame.Color('BLACK'),
