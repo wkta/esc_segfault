@@ -11,7 +11,8 @@ class Matrix(MobileEnt):
 		self.set_pos(random.randint(0, DISP_WIDTH), random.randint(DISP_HEIGHT-50, DISP_HEIGHT))
 		self.set_vect_x(0)
 		self.set_vect_y(random.randint(-4, -1))
-		self.text = self.font.render(self.str, 1, (random.randint(250, 255), 255, random.randint(250, 255)))
+		rand_c = random.randint(60, 250)
+		self.text = self.font.render(self.str, 1, (rand_c, 255, rand_c))
 		pass
 
 	def update(self):
