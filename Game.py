@@ -158,12 +158,16 @@ class Game:
             self.y_last_affich = Game.pl.y_game
             #print(len(Game.pl.environ.entity_list))
         Game.pl.environ.current_bonus.collide(Game.pl)
+        #gestion bonus
         if not Game.pl.environ.current_bonus.visible:
-            Game.pl.environ.current_bonus = None
-            Game.pl.environ.generateBonus()
+            if random.randint(1,5000) == 42:
+                Game.pl.environ.generateBonus()
+                x_bonus, y_bonus = Game.pl.environ.current_bonus.getXY()
+                if (Game.pl.y_game-y_bonus>DISP_HEIGHT*2):
+                    Game.pl.environ.current_bonus.visible = False
+        #fin gestion bonus
         #fin gestion plateformes
 
-        Game.pl.environ.generateBonus()
         Game.pl.environ.updateEntities()
         #if( time- self.last_refr <= Fdelay ):
             #return
