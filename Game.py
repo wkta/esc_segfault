@@ -1,6 +1,7 @@
 # LUDUM DARE 29: ESCAPE THE SEGFAULT!
 
 import pygame
+import random
 from Player import Player
 from SkillBar import SkillBar 
 from time import sleep
@@ -96,8 +97,10 @@ class Game:
             now = pygame.time.get_ticks()
             if now - last_ref > Fdelay:
                 Game.pl.updatePosition()
-                #TODO: reparer collisions
                 Game.pl.environ.current_bonus.collide(Game.pl)
+                if not Game.pl.environ.current_bonus.visible:
+                    Game.pl.environ.current_bonus = None
+                    Game.pl.environ.generateBonus()
                 self.refreshScreen()
 
     def refreshScreen(self ):

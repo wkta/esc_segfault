@@ -7,6 +7,7 @@ class Level(object):
         self.entity_list = list()
         self.x_plat_list = list()
         self.y_plat_list = list()
+        self.current_bonus = None
 
     def addEntity(self, ent):
         self.entity_list.append(ent)
