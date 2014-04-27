@@ -3,11 +3,14 @@ from GameEntity import GameEntity
 from PitfallLevel import PitfallLevel 
 from DynamicLevel import DynamicLevel 
 from global_vars import *
+import pygame
+import random
 
 V_MAX_HORZ = 2.
 DELTA_V_HORZ = 0.04
 
 class Player(GameEntity):
+    LETHAL_SPEED = 30.
     BASECOLOR = pygame.Color('darkred')
     BASE_SPEED = 2.
     SIZE = 16
@@ -28,6 +31,10 @@ class Player(GameEntity):
         self.time_in_air = 0.
         self.initGraphics('ludumdare-croquis-chevalier.png',6., -64, -185)
         self.list_bonus = list()
+        self.is_dead = False
+
+    def isDead(self):
+        return self.is_dead
 
     def startMovingRight(self):
         self.moving_right = True
@@ -76,11 +83,12 @@ class Player(GameEntity):
         else:
             self.setXY( self.x_game + self.vx, self.y_game )
 
-        #if not (self.environ.canFall( self.x_game ) ):
-            #self.in_air = False
-            #self.time_in_air = 0.
         value_fl = self.environ.getValueFloor( self.x_game, self.y_game )
         if (self.y_game <= value_fl): # La valeur qu'il atteind a la fin d'une chute
+            #collision avec sol/plateforme
+            if( abs(self.vy) > Player.LETHAL_SPEED ): #mort
+                print "You just died."
+                self.is_dead = True
             self.y_game = value_fl
             self.vy = 0.
             self.in_air = False
@@ -95,4 +103,12 @@ class Player(GameEntity):
 
     def markToDisplay(self, surface):
         super(Player,self).markToDisplay(surface, self.y_game )
+        x_screen, y_screen = game_to_scr_coord(self.x_game, self.y_game, self.y_game)
+        if (self.is_dead):
+            for i in xrange(128):
+                a,b=random.randint(-64,64),random.randint(-192,-32)
+                surface.set_at( (x_screen+a,y_screen+b), pygame.Color('RED')) 
+                surface.set_at( (-1+x_screen+a,y_screen+b), pygame.Color('RED')) 
+                surface.set_at( (+1+x_screen+a,y_screen+b), pygame.Color('RED')) 
+                surface.set_at( (x_screen+a,1+y_screen+b), pygame.Color('RED')) 
 

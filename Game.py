@@ -118,6 +118,13 @@ class Game:
 
 
     def processEvPlatformer(self, event): 
+        if event.type is pygame.KEYUP:
+            if event.key == pygame.K_RIGHT:
+                Game.pl.stopMoving()
+            if event.key == pygame.K_LEFT:
+                Game.pl.stopMoving()
+        if (Game.pl.isDead() ):  #controles bloque quand joueur mort
+            return
         if event.type is pygame.KEYDOWN:
             if event.key == pygame.K_UP:
                 Game.pl.jump()
@@ -125,11 +132,6 @@ class Game:
                 Game.pl.startMovingRight()
             if event.key == pygame.K_LEFT:
                 Game.pl.startMovingLeft()
-        if event.type is pygame.KEYUP:
-            if event.key == pygame.K_RIGHT:
-                Game.pl.stopMoving()
-            if event.key == pygame.K_LEFT:
-                Game.pl.stopMoving()
 
     def processEvIntro(self, event):
         if event.type is pygame.KEYDOWN:
