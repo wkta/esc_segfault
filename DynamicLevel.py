@@ -22,7 +22,7 @@ class DynamicLevel(Level):
 
         self.xrand_temp = DISP_WIDTH/2
         for i in range(1,50):
-            self.xrand = random.randint(0,900)
+            self.xrand = random.randint(0,DISP_WIDTH-SIZE_SK_BAR-192 )
             while (abs(self.xrand-self.xrand_temp)>700):
                 self.xrand = random.randint(0,900)
             self.x_plat_list.append(self.xrand)

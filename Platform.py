@@ -8,16 +8,15 @@ class Platform:
     def __init__(self, x_game, y_game):
         self.x_game = x_game
         self.y_game = y_game	
-        self.w, self.h = 128,12
+        self.w, self.h = random.randint(128,300) , 16
 	
     def markToDisplay(self, window, pl_y_game):
         x_screen, y_screen = game_to_scr_coord( self.x_game, self.y_game, pl_y_game )
-        platform_color = random.choice( (\
+        if (random.choice( range(64))==0 ):
+            pygame.Color('lightgreen')
+        else:
             pygame.Color('darkgreen'),
-            pygame.Color('darkgreen'),
-            pygame.Color('darkgreen'),
-            pygame.Color('green'),
-            pygame.Color('lightgreen') ) )
+
         pygame.draw.rect( window, platform_color,
             pygame.Rect(x_screen, y_screen, self.w, self.h )  )
 
