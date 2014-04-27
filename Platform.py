@@ -13,9 +13,9 @@ class Platform:
     def markToDisplay(self, window, pl_y_game):
         x_screen, y_screen = game_to_scr_coord( self.x_game, self.y_game, pl_y_game )
         if (random.choice( range(64))==0 ):
-            pygame.Color('lightgreen')
+            platform_color = pygame.Color('lightgreen')
         else:
-            pygame.Color('darkgreen'),
+            platform_color =  pygame.Color('darkgreen'),
 
         pygame.draw.rect( window, platform_color,
             pygame.Rect(x_screen, y_screen, self.w, self.h )  )
