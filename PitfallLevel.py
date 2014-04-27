@@ -30,6 +30,3 @@ class PitfallLevel(Level):
         # affichage du rect pour debug collisions
         pygame.draw.rect(window, pygame.Color('YELLOW'),
             (0, 0, DISP_WIDTH, DISP_HEIGHT)  )
-
-    def getValueFloor(self, x,y):
-        return 0

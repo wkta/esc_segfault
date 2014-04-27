@@ -29,3 +29,6 @@ class Level(object):
 
     def scrollTo(self, pl_y_game):
         pass
+
+    def getValueFloor(self, x,y):
+        return 0
