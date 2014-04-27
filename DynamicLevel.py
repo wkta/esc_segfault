@@ -1,4 +1,5 @@
 import pygame
+import random
 from Platform import Platform
 from global_vars import *
 
@@ -13,9 +14,13 @@ class DynamicLevel:
         self.vit_scrolling = 0.
         self.pl_y_game = 30. # le joueur commence au niveau 0
 
-        self.generatePlatform(32, 100)
-        self.generatePlatform(512, 200)
-        self.generatePlatform(800, 312)
+        self.xrand_temp = 512
+        for i in range(1,100):
+            self.xrand = random.randint(0,900)
+            while (abs(self.xrand-self.xrand_temp)>700):
+                self.xrand = random.randint(0,900)
+            self.generatePlatform(self.xrand, i*100 + random.randint(0,10))
+            self.xrand_temp = self.xrand
 
     def getValueFloor(self, pl_x_game, pl_y_game):
         """retourne position y de la plateform la plus proche"""
@@ -25,6 +30,7 @@ class DynamicLevel:
             if( ent.canHit( pl_x_game) ):
                 sub_entity_l.append( ent)
         # TODO sort
+        sub_entity_l.reverse()
         for ent in sub_entity_l:
             if( ent.isUnder( pl_y_game) ):
                 continue
