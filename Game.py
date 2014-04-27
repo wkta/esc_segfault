@@ -26,6 +26,8 @@ class Game:
     ST_QUIT = 9
 
     def __init__(self):
+        self.switch_img = False
+
         pygame.init()
         Game.pl = Player( 0,0)  #TODO :  position realiste
 
@@ -132,7 +134,11 @@ class Game:
     def processEvIntro(self, event):
         if event.type is pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                self.prepareNewState( Game.ST_GAME_FALL)
+                if(self.switch_img):
+                    self.prepareNewState( Game.ST_GAME_FALL)
+                else:
+                    self.switch_img = True
+                    Game.pl.environ.turnImgOff()
 
     def processEvFall(self,event):
         return

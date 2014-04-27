@@ -2,6 +2,18 @@ import pygame
 from Level import Level
 from global_vars import *
 
+import os
+
+def load_image(name ):
+    fullname = os.path.join('assets', name)
+    try:
+        image = pygame.image.load(fullname)
+    except pygame.error, message:
+        print 'Cannot load image:', fullname
+        raise SystemExit, message
+    return image, image.get_rect()
+
+
 class IntroScreen(Level):
     FONTSIZE = 32
 
@@ -13,15 +25,23 @@ class IntroScreen(Level):
         self.offset_y = offset_y
         self.text_disp = True
         self.current_bonus = None
+        self.turnImgOn()
 
-    def turnDispOn(self):
-        self.text_disp = True
+    def turnImgOn(self):
+        self.img, self.noneed_rect = load_image( 'ecran_intro.png')
+        self.img_disp= True
 
-    def turnDispOff(self):
-        self.text_disp = False
+    def turnImgOff(self):
+        self.img_disp = False
 
     def markToDisplay(self,surface):
         surface.fill(  pygame.Color('black') )
+
+        if(self.img_disp):
+            surface.blit( self.img, (0,0)  )
+
+        if(self.img_disp):  #code debile a corriger
+            return
 
         #creation de labels pour autant de lignes
         remaining = self.text
