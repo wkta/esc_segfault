@@ -2,6 +2,7 @@ import pygame
 import random
 from Platform import Platform
 from global_vars import *
+from SkillBox import SkillBox
 
 class DynamicLevel:
     """modelise le decor en gerant le scrolling  pour quil soit toujours centre sur le joueur"""
@@ -14,6 +15,9 @@ class DynamicLevel:
         self.vit_scrolling = 0.
         self.pl_y_game = 30. # le joueur commence au niveau 0
 
+        self.current_bonus = None
+        self.generateBonus()
+
         self.xrand_temp = 512
         for i in range(1,50):
             self.xrand = random.randint(0,900)
@@ -21,6 +25,11 @@ class DynamicLevel:
                 self.xrand = random.randint(0,900)
             self.generatePlatform(self.xrand, i*100 + random.randint(0,10))
             self.xrand_temp = self.xrand
+
+    def generateBonus(self):
+        if( None != self.current_bonus):
+            return
+        self.current_bonus = SkillBox( DISP_WIDTH/2, self.pl_y_game+ (DISP_HEIGHT/2) )
 
     def getValueFloor(self, pl_x_game, pl_y_game):
         """retourne position y de la plateform la plus proche"""
@@ -53,9 +62,16 @@ class DynamicLevel:
         self.entity_list.append( new_plat)
 
     def markToDisplay( self, window):
+        #affichage des plateformes
         for ent in self.entity_list:
             ent.markToDisplay(window,self.pl_y_game)
+        #affichage du sol
         x_screen, y_screen = game_to_scr_coord( 0,0, self.pl_y_game )
         pygame.draw.rect( window, pygame.Color('BLACK'),
             pygame.Rect(x_screen, y_screen, DISP_WIDTH, DISP_HEIGHT/2 )  )
+        #affichage des bonus
+        self.current_bonus.markToDisplay( window, self.pl_y_game )
+
+    def updateEntities(self ):
+        self.current_bonus.updatePosition()
 
