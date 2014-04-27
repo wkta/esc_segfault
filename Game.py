@@ -55,23 +55,24 @@ class Game:
             if(self.state==Game.ST_PLATEFORMER):
                 self.x_plat_list = Game.pl.environ.x_plat_list
                 self.y_plat_list = Game.pl.environ.y_plat_list
-                if (abs(self.y_last_affich - Game.pl.y_game)>(600/2)):
+                if (abs(self.y_last_affich - Game.pl.y_game)>(DISP_HEIGHT/2)):
                     self.affich_new_plat = True
                 if (self.affich_new_plat):
-                    #print(len(Game.pl.environ.entity_list))
                     Game.pl.environ.removeAllPlatform()
-                    #print(len(Game.pl.environ.entity_list))
                     for y_plat in self.y_plat_list:
-                        #print(len(Game.pl.environ.entity_list))
-                        if (abs(y_plat - Game.pl.y_game)<(600)):
+                        if (abs(y_plat - Game.pl.y_game)<(DISP_HEIGHT)):
                             Game.pl.environ.generatePlatform(self.x_plat_list[self.y_plat_list.index(y_plat)], y_plat)
                     self.affich_new_plat = False
                     self.y_last_affich = Game.pl.y_game
-                    #print(len(Game.pl.environ.entity_list))
                 Game.pl.environ.current_bonus.collide(Game.pl)
+                #gestion bonus
                 if not Game.pl.environ.current_bonus.visible:
-                    Game.pl.environ.current_bonus = None
-                    Game.pl.environ.generateBonus()
+                    if random.randint(1,2000) == 42:
+                        Game.pl.environ.generateBonus()
+                x_bonus, y_bonus = Game.pl.environ.current_bonus.getXY()
+                if (Game.pl.y_game-y_bonus>DISP_HEIGHT*2):
+                    Game.pl.environ.current_bonus.visible = False
+                #fin gestion bonus
             #fin gestion plateformes
                     
             for event in pygame.event.get(): 
