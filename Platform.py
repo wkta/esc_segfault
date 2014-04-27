@@ -1,5 +1,6 @@
 import pygame
 from global_vars import *
+import random
 
 class Platform:
     markToDisplay = 'yo'
@@ -10,8 +11,14 @@ class Platform:
         self.w, self.h = 128,12
 	
     def markToDisplay(self, window, pl_y_game):
-		x_screen, y_screen = game_to_scr_coord( self.x_game, self.y_game, pl_y_game )
-		pygame.draw.rect( window, pygame.Color('BLUE'),
+        x_screen, y_screen = game_to_scr_coord( self.x_game, self.y_game, pl_y_game )
+        platform_color = random.choice( (\
+            pygame.Color('darkgreen'),
+            pygame.Color('darkgreen'),
+            pygame.Color('darkgreen'),
+            pygame.Color('green'),
+            pygame.Color('lightgreen') ) )
+        pygame.draw.rect( window, platform_color,
             pygame.Rect(x_screen, y_screen, self.w, self.h )  )
 
     def canHit(self,pl_x_game):

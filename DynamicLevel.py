@@ -74,11 +74,12 @@ class DynamicLevel(Level):
         self.entity_list = list()
 
     def markToDisplay( self, window):
+        window.fill(  pygame.Color('black') )
         super(DynamicLevel,self).markToDisplay( window)
 
         #affichage du sol
         x_screen, y_screen = game_to_scr_coord( 0,0, self.pl_y_game )
-        pygame.draw.rect( window, pygame.Color('BLACK'),
+        pygame.draw.rect( window, pygame.Color('darkgray'),
             pygame.Rect(x_screen, y_screen, DISP_WIDTH, DISP_HEIGHT/2 )  )
         #affichage des bonus
         if self.current_bonus.visible:
