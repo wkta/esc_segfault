@@ -22,7 +22,7 @@ class Player(GameEntity):
         self.moving_right = self.moving_left = False
         self.in_air = False
         self.time_in_air = 0.
-        # self.img = 
+        self.initGraphics('ludumdare-croquis-chevalier.png',6., -64, -185)
 
     def startMovingRight(self):
         self.moving_right = True
@@ -88,7 +88,8 @@ class Player(GameEntity):
         self.in_air = True
 
     def markToDisplay(self, surface):
-        x_screen, y_screen= game_to_scr_coord( self.x_game, self.y_game, self.y_game)
-        pygame.draw.circle( surface, pygame.Color('RED') ,
-            (x_screen, y_screen), Player.SIZE) 
+        super(Player,self).markToDisplay(surface, self.y_game )
+        #x_screen, y_screen= game_to_scr_coord( self.x_game, self.y_game, self.y_game)
+        #pygame.draw.circle( surface, pygame.Color('RED') ,
+        #    (x_screen, y_screen), Player.SIZE) 
 

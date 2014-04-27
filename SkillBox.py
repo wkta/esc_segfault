@@ -10,6 +10,7 @@ class SkillBox(GameEntity):
         }
  
     def __init__(self, x_game_init, y_game_init ):
+        super(SkillBox,self).__init__()
         super(SkillBox,self).setXY( x_game_init, y_game_init )
         self.skill_id = random.choice(
             SkillBox.POSSIB_SKILLS.keys() )
