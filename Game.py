@@ -6,6 +6,7 @@ from time import sleep
 
 from global_vars import *
 
+Fdelay = 1000 / FPS
 
 class Game:
     """ permet de faire tourner le jeu avec boucles d'evenement et gestion de l'etat du jeu"""
@@ -30,15 +31,19 @@ class Game:
     def run(self):
         """gere la boucle d'evenements"""
         prog_done = False
+        last_ref = pygame.time.get_ticks()
+        self.refreshScreen()
         while not prog_done:
-            self.refreshScreen()
 
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT: 
                     prog_done = True
                     break 
                 if event.type is pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
+                    if event.key == pygame.K_ESCAPE:
+                        prog_done = True
+                        break 
+                    if event.key == pygame.K_UP:
                         Game.pl.jump()
                     if event.key == pygame.K_RIGHT:
                         Game.pl.startMovingRight()
@@ -50,10 +55,14 @@ class Game:
                         Game.pl.stopMoving()
                     if event.key == pygame.K_LEFT:
                         Game.pl.stopMoving()
+
             Game.pl.updatePosition()
+            now = pygame.time.get_ticks()
+            if now - last_ref > Fdelay:
+                self.refreshScreen()
 
     def refreshScreen(self ):
-        Game.window.fill(  pygame.Color('BLACK') )
+        Game.window.fill(  pygame.Color('BurlyWood') )
         Game.pl.markToDisplay( Game.window ) 
         # TODO cest le joueur qui pourrait declencher le declencehement du dessin du terrain
         Game.pl.environ.markToDisplay( Game.window )
