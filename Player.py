@@ -17,6 +17,7 @@ class Player(GameEntity):
     PUSH_POWER = 32.
     GRAVITE = 2.
     RALENTI = 16.
+    HEIGHT_VICTORY = 600 * 10  # if you reach this, you win
 
     def setEnviron(self, env):
         self.environ = env
@@ -32,9 +33,13 @@ class Player(GameEntity):
         self.initGraphics('ludumdare-croquis-chevalier.png',6., -64, -185)
         self.list_bonus = list()
         self.is_dead = False
+        self.has_won = False
 
     def isDead(self):
         return self.is_dead
+
+    def hasWon(self):
+        return self.has_won
 
     def startMovingRight(self):
         self.moving_right = True
@@ -79,6 +84,11 @@ class Player(GameEntity):
                 self.vy / Player.RALENTI - \
                 ( Player.GRAVITE*(1./Player.RALENTI)*(self.time_in_air/Player.RALENTI))/2
                 )
+
+            #test pr victoire
+            if(self.y_game > Player.HEIGHT_VICTORY ):
+                self.has_won = True
+                return
             self.time_in_air += 1.
         else:
             self.setXY( self.x_game + self.vx, self.y_game )
@@ -104,11 +114,12 @@ class Player(GameEntity):
     def markToDisplay(self, surface):
         super(Player,self).markToDisplay(surface, self.y_game )
         x_screen, y_screen = game_to_scr_coord(self.x_game, self.y_game, self.y_game)
-        if (self.is_dead):
-            for i in xrange(128):
-                a,b=random.randint(-64,64),random.randint(-192,-32)
-                surface.set_at( (x_screen+a,y_screen+b), pygame.Color('RED')) 
-                surface.set_at( (-1+x_screen+a,y_screen+b), pygame.Color('RED')) 
-                surface.set_at( (+1+x_screen+a,y_screen+b), pygame.Color('RED')) 
-                surface.set_at( (x_screen+a,1+y_screen+b), pygame.Color('RED')) 
+        sfx_color = ( pygame.Color('yellow') if self.has_won else pygame.Color('red') )
+        if (self.is_dead or self.has_won):
+            for i in xrange( 512):
+                a,b=random.randint(-64,64),random.randint(-172,-8)
+                surface.set_at( (x_screen+a,y_screen+b), sfx_color) 
+                surface.set_at( (-1+x_screen+a,y_screen+b),sfx_color ) 
+                surface.set_at( (+1+x_screen+a,y_screen+b),sfx_color ) 
+                surface.set_at( (x_screen+a,1+y_screen+b),sfx_color ) 
 

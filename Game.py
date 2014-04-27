@@ -14,15 +14,24 @@ from global_vars import *
 
 Fdelay = 1000 / FPS
 
+E_LINE =''.join([' ' for i in xrange(34)])  #very dirty way to print an empty line in a intro screen
 class Game:
     """ permet de faire tourner le jeu avec boucles d'evenement et gestion de l'etat du jeu"""
     pl = None
     window = None
+    
+    TEXT_VICT = "                                  You have won! Congratulations.    You should be able to save the    princess now. Oh. Wait. We forgot to code this part,sorry :) Thanks for playing!                      ***Credits***             " \
+        + E_LINE + \
+        "Code:     Thomas Iwaszko                    Antoine                           Alexandre Thilly" +\
+        E_LINE +\
+        "      Graphics:   Fabien Hulot"
 
     ST_INTRO = 0
     ST_PLATEFORMER = 1
     ST_GAME_OVER = 2
     ST_GAME_FALL = 3
+
+    ST_VICTORY = 8
     ST_QUIT = 9
 
     def __init__(self):
@@ -58,6 +67,10 @@ class Game:
         elif(self.future_state==Game.ST_PLATEFORMER):
             Game.pl.setEnviron( DynamicLevel() )
             Game.pl.setXY( DISP_WIDTH/2, 0)
+        elif(self.future_state==Game.ST_VICTORY):
+            end_screen = IntroScreen( Game.TEXT_VICT,  34, 50)
+            end_screen.turnImgOff()
+            Game.pl.setEnviron( end_screen)
         elif(self.future_state==Game.ST_QUIT):
             pass
         else:
@@ -93,6 +106,9 @@ class Game:
             elif(self.state==Game.ST_PLATEFORMER):
                 f_events = self.processEvPlatformer
                 f_play = self.playPlateformer
+            elif(self.state==Game.ST_VICTORY):
+                f_events = self.processEvIntro
+                f_play = self.playIntro
             else:
                 raise Exception('unknown game state')
 
@@ -123,7 +139,7 @@ class Game:
                 Game.pl.stopMoving()
             if event.key == pygame.K_LEFT:
                 Game.pl.stopMoving()
-        if (Game.pl.isDead() ):  #controles bloque quand joueur mort
+        if (Game.pl.isDead() or Game.pl.hasWon() ):  #controles bloque quand joueur mort/a gagne
             return
         if event.type is pygame.KEYDOWN:
             if event.key == pygame.K_UP:
@@ -136,6 +152,11 @@ class Game:
     def processEvIntro(self, event):
         if event.type is pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
+                if(Game.pl.has_won  ):  #deja fini le jeu
+                    self.prepareNewState(Game.ST_QUIT )
+                    return
+        
+                #le jeu commence
                 if(self.switch_img):
                     self.prepareNewState( Game.ST_GAME_FALL)
                 else:
@@ -155,6 +176,10 @@ class Game:
         self.refreshScreen()
 
     def playPlateformer(self, time ):
+        if( Game.pl.hasWon() ):
+            self.prepareNewState( Game.ST_VICTORY )
+            return
+
         self.x_plat_list = Game.pl.environ.x_plat_list
         self.y_plat_list = Game.pl.environ.y_plat_list
         if (abs(self.y_last_affich - Game.pl.y_game)>(600/2)):
