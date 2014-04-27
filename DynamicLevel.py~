@@ -36,6 +36,8 @@ class DynamicLevel:
         if( None != self.current_bonus):
             return
         self.current_bonus = SkillBox( DISP_WIDTH/2, self.pl_y_game+ (DISP_HEIGHT/2) )
+        if self.current_bonus.collide(self.pl):
+            self.current_bonus.visible = False
 
     def getValueFloor(self, pl_x_game, pl_y_game):
         """retourne position y de la plateform la plus proche"""

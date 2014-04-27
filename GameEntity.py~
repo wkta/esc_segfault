@@ -43,7 +43,7 @@ class GameEntity(object):
     def collide(self, entite):
         #TODO: utiliser la fonction getRect
         x_ent, y_ent = entite.getXY()
-        if abs(self.x_game - x_ent <1) and abs(self.y_game - y_ent <1):
+        if abs(self.x_game - x_ent <15) and abs(self.y_game - y_ent <15):
             self.visible = False
             return True
 

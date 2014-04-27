@@ -59,7 +59,7 @@ class Game:
             now = pygame.time.get_ticks()
             if now - last_ref > Fdelay:
                 Game.pl.updatePosition()
-                Game.pl.environ.current_bonus.collide(Game.pl)
+                Game.pl.environ.collide(Game.pl)
                 # TODO affichage des plateformes proches du player
                 self.refreshScreen()
 
