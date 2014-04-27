@@ -11,6 +11,7 @@ class MobileEnt(GameEntity):
 		self.w, self.h = 48, 48 #TODO : des tailles variables ? Laisser les sous classes s'en charger et gérer les collisions dedans ?
 		self.vx, self.vy = 0, 0
 		self.x_movement, self.y_movement = 0, 0
+		self.color = pygame.Color('WHITE')
 		pass
 
 	def set_pos(self, x, y):
@@ -20,8 +21,22 @@ class MobileEnt(GameEntity):
 	def get_pos(self):
 		return(self.x_game, self.y_game)
 
-	def set_vect(self, vector):
-		self.vx, self.vy = vector[0], vector[1]
+	def set_color(self, color):
+		self.color = color
+		pass
+
+	def get_color(self):
+		return self.color
+
+	def set_size(self, size):#tuple size attendu
+		self.w, self.h = size
+		pass
+
+	def get_size(self):
+		return self.w, self.h
+
+	def set_vect(self, vector):#tuple vector attendu
+		self.vx, self.vy = vector
 		pass
 
 	def get_vect(self):
@@ -47,7 +62,9 @@ class MobileEnt(GameEntity):
 		return(self.x_movement, self.y_movement)
 
 	def markToDisplay(self, window, pl_y_game):
-		x_screen, y_screen = game_to_scr_coord( self.x_game, self.y_game, pl_y_game)
-		pygame.draw.rect( window, pygame.Color('RED'),
-			pygame.Rect(x_screen, y_screen, self.w, self.h ))
+		x, y = self.get_pos()
+		width, height = self.get_size()
+		x_screen, y_screen = game_to_scr_coord(x, y, pl_y_game)
+		pygame.draw.rect(window, self.get_color(),
+			pygame.Rect(x_screen, y_screen, width, height))
 		pass

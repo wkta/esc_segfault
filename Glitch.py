@@ -3,10 +3,12 @@ from MobileEnt import MobileEnt
 class Glitch(MobileEnt):
 	"""Classe qui permet de generer des glitch et de definir leurs mouvements"""
 
-	def __init__(self, x_game, y_game, x_movement, y_movement):
+	def __init__(self, x_game, y_game, x_movement, y_movement, size, color):
 		self.set_pos(x_game, y_game)
 		self.set_init_pos(x_game, y_game)
 		self.set_movement(x_movement, y_movement)
+		self.set_size(size)
+		self.set_color(color)
 		pass
 
 	def inverse_vector_x(self):
