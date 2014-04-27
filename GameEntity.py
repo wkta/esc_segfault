@@ -23,6 +23,7 @@ class GameEntity(object):
         self.offset_x , self.offset_y = 0,0
         self.way = "left"
         self.visible = True
+        self.col = ''
 
     def initGraphics(self, fich_img, resize_fact, offset_x, offset_y ):
         if(not fich_img in loaded_data_img.keys() ):
@@ -54,7 +55,10 @@ class GameEntity(object):
     def collide(self, entite):
         #TODO: utiliser la fonction getRect
         x_ent, y_ent = entite.getXY()
-        if abs(self.x_game - x_ent <1) and abs(self.y_game - y_ent <1):
+        if (abs(self.x_game - x_ent )<20 and abs(self.y_game - y_ent) <20):
+            if self.visible == True:
+                entite.list_bonus.append(self.skill_id)
+                print(entite.list_bonus)
             self.visible = False
             return True
 
@@ -77,7 +81,13 @@ class GameEntity(object):
 
         # affichage objet en lui meme
         if(self.image==None):
-            pygame.draw.rect( window, pygame.Color('BROWN'), pygame.Rect(x_screen, y_screen-40, 40,40)  )
+            if self.skill_id == 1:
+                self.col = 'BLUE'
+            if self.skill_id == 2:
+                self.col = 'GREEN'
+            if self.skill_id == 3:
+                self.col = 'YELLOW'
+            pygame.draw.rect( window, pygame.Color(self.col), pygame.Rect(x_screen, y_screen-40, 40,40)  )
             return
         window.blit( self.image,
             (x_screen+self.offset_x, y_screen+self.offset_y ) ) 

@@ -11,6 +11,7 @@ class IntroScreen(Level):
         self.max_t_len = max_t_len
         self.offset_y = offset_y
         self.text_disp = True
+        self.current_bonus = None
 
     def turnDispOn(self):
         self.text_disp = True

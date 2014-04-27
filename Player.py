@@ -27,6 +27,7 @@ class Player(GameEntity):
         self.in_air = False
         self.time_in_air = 0.
         self.initGraphics('ludumdare-croquis-chevalier.png',6., -64, -185)
+        self.list_bonus = list()
 
     def startMovingRight(self):
         self.moving_right = True
