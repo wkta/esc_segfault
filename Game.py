@@ -106,7 +106,7 @@ class Game:
             if now - last_ref > Fdelay:
                 Game.pl.updatePosition()
                 #TODO: reparer collisions
-                #Game.pl.environ.current_bonus.collide(Game.pl)
+                Game.pl.environ.current_bonus.collide(Game.pl)
                 self.refreshScreen()
 
     def refreshScreen(self ):

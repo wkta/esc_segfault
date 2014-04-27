@@ -1,6 +1,7 @@
 from Level import Level
 import pygame
 from global_vars import *
+from SkillBox import SkillBox
 
 # plutot que de faire un "vrai" scolling on va faire se deplacer des
 # elements type matrix vers le haut de lecran
@@ -14,6 +15,7 @@ class PitfallLevel(Level):
         self.entity_list = list()
         self.x_plat_list = list()
         self.y_plat_list = list()
+        self.current_bonus = SkillBox(-1000,-1000)
 
     def hasFallEnded(self):
         now = pygame.time.get_ticks()
