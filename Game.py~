@@ -2,7 +2,10 @@
 
 import pygame
 from Player import Player
+from SkillBar import SkillBar 
 from time import sleep
+from DynamicLevel import DynamicLevel
+from PitfallLevel import PitfallLevel
 
 from global_vars import *
 
@@ -20,6 +23,9 @@ class Game:
     def __init__(self):
         pygame.init()
         Game.pl = Player( 0, 0 )  #TODO :  position realiste
+        #Game.pl.setEnviron( DynamicLevel()  )
+
+        Game.sk_bar = SkillBar( Game.pl )
         Game.window = pygame.display.set_mode( (DISP_WIDTH, DISP_HEIGHT) )
         self.state = Game.ST_PLATEFORMER
         self.x_plat_list = list()
@@ -41,22 +47,22 @@ class Game:
         self.y_plat_list = Game.pl.environ.y_plat_list
         
         while not prog_done:
+            self.x_plat_list = Game.pl.environ.x_plat_list
+            self.y_plat_list = Game.pl.environ.y_plat_list
         
             if (abs(self.y_last_affich - Game.pl.y_game)>(600/2)):
-                print(abs(self.y_last_affich - Game.pl.y_game))
                 self.affich_new_plat = True
             if (self.affich_new_plat):
-                print(self.affich_new_plat)
                 print(len(Game.pl.environ.entity_list))
                 Game.pl.environ.removeAllPlatform()
                 print(len(Game.pl.environ.entity_list))
                 for y_plat in self.y_plat_list:
+                    print(len(Game.pl.environ.entity_list))
                     if (abs(y_plat - Game.pl.y_game)<(600)):
                         Game.pl.environ.generatePlatform(self.x_plat_list[self.y_plat_list.index(y_plat)], y_plat)
-                        #TODO Effacer les plateformes au fur et a mesure
-                print(len(Game.pl.environ.entity_list))
                 self.affich_new_plat = False
                 self.y_last_affich = Game.pl.y_game
+                print(len(Game.pl.environ.entity_list))
                     
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT: 
@@ -79,16 +85,22 @@ class Game:
                     if event.key == pygame.K_LEFT:
                         Game.pl.stopMoving()
 
+            if(  isinstance(Game.pl.environ, PitfallLevel)):
+                if( Game.pl.environ.hasFallEnded() ):
+                    del Game.pl.environ
+                    Game.pl.setEnviron( DynamicLevel()  )
+
             now = pygame.time.get_ticks()
             if now - last_ref > Fdelay:
                 Game.pl.updatePosition()
-                Game.pl.environ.current_bonus.collide(Game.pl)
-                # TODO affichage des plateformes proches du player
+                #TODO: reparer collisions
+                #Game.pl.environ.current_bonus.collide(Game.pl)
                 self.refreshScreen()
 
     def refreshScreen(self ):
         Game.window.fill(  pygame.Color('BurlyWood') )
         Game.pl.markToDisplay( Game.window ) 
+        Game.sk_bar.markToDisplay(Game.window)
         # TODO cest le joueur qui pourrait declencher le declencehement du dessin du terrain
         Game.pl.environ.markToDisplay( Game.window )
         pygame.display.flip() 

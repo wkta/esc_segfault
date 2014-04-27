@@ -47,16 +47,22 @@ class Game:
         self.y_plat_list = Game.pl.environ.y_plat_list
         
         while not prog_done:
+            self.x_plat_list = Game.pl.environ.x_plat_list
+            self.y_plat_list = Game.pl.environ.y_plat_list
         
             if (abs(self.y_last_affich - Game.pl.y_game)>(600/2)):
                 self.affich_new_plat = True
             if (self.affich_new_plat):
+                #print(len(Game.pl.environ.entity_list))
                 Game.pl.environ.removeAllPlatform()
+                #print(len(Game.pl.environ.entity_list))
                 for y_plat in self.y_plat_list:
+                    #print(len(Game.pl.environ.entity_list))
                     if (abs(y_plat - Game.pl.y_game)<(600)):
                         Game.pl.environ.generatePlatform(self.x_plat_list[self.y_plat_list.index(y_plat)], y_plat)
                 self.affich_new_plat = False
                 self.y_last_affich = Game.pl.y_game
+                #print(len(Game.pl.environ.entity_list))
                     
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT: 

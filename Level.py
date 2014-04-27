@@ -5,6 +5,8 @@ class Level(object):
 
     def __init__(self):
         self.entity_list = list()
+        self.x_plat_list = list()
+        self.y_plat_list = list()
 
     def addEntity(self, ent):
         self.entity_list.append(ent)
@@ -15,6 +17,9 @@ class Level(object):
         for ent in self.entity_list:
             ent.markToDisplay(window,self.pl_y_game)
 
+    def removeAllPlatform(self):
+        self.entity_list = list()
+        
     def updateEntities(self ):
         pass
 

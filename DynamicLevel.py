@@ -18,8 +18,6 @@ class DynamicLevel(Level):
         self.pl_y_game = 30. # le joueur commence au niveau 0
 
         self.current_bonus = None
-        self.x_plat_list = list()
-        self.y_plat_list = list()
         self.generateBonus()
 
         self.xrand_temp = DISP_WIDTH/2
@@ -67,17 +65,13 @@ class DynamicLevel(Level):
 
     def generatePlatform(self, x_game_start, y_game):
         new_plat = Platform( x_game_start,  y_game)
-<<<<<<< HEAD
-        self.entity_list.append( new_plat)
+        self.addEntity( new_plat)
         
     def removePlatform(self, plat_to_remove):
         self.entity_list.remove( plat_to_remove)
         
     def removeAllPlatform(self):
         self.entity_list = list()
-=======
-        self.addEntity( new_plat)
->>>>>>> 0604c3253399a5aafbb15534e8762e39b54df739
 
     def markToDisplay( self, window):
         super(DynamicLevel,self).markToDisplay( window)
