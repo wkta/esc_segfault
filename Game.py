@@ -46,7 +46,10 @@ class Game:
             raise Exception('no future state')
 
         if(self.future_state==Game.ST_INTRO):
-            Game.pl.setEnviron( IntroScreen("hoj hoj hoj")  )
+            Game.pl.setEnviron( IntroScreen("                                  In this Ludum Dare#29 game,you are the brave hero who must save the princess!! Unfortunately, due  to drunk python coders the game is   super bugged.  While  you    walk towards her, you bump into a BIG  bug and fall into the depths of    the  software,beneath the surface  ..."
+            ,  34
+            ,84 )
+                )
         elif(self.future_state==Game.ST_GAME_FALL):
             Game.pl.setEnviron( PitfallLevel() )
             Game.pl.setXY( DISP_WIDTH/2, DISP_HEIGHT/2  )

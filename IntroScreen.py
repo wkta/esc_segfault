@@ -1,11 +1,12 @@
 import pygame
 from Level import Level
+from global_vars import *
 
 class IntroScreen(Level):
-    FONTSIZE = 64
+    FONTSIZE = 32
 
-    def __init__(self, text, max_t_len = 64, offset_y = 0):
-        self.font = pygame.font.SysFont("comicsansms", 64)
+    def __init__(self, text, max_t_len = 40, offset_y = 0):
+        self.font = pygame.font.SysFont("courier", IntroScreen.FONTSIZE)
 
         self.text = text
         self.max_t_len = max_t_len
@@ -25,15 +26,14 @@ class IntroScreen(Level):
         #creation de labels pour autant de lignes
         remaining = self.text
         local_offset = self.offset_y
-        substr = self.text
         while ( len(remaining)>self.max_t_len  ):
-            substr = self.text[ :self.max_t_len ]
-            remaining = self.text[ self.max_t_len: ]
+            remaining= remaining[ self.max_t_len: ]
+            substr= remaining[ :self.max_t_len ]
             label = self.font.render( substr, 1, (0, 255, 0) )
-            surface.blit( label, (0, local_offset ))
-            local_offset += FONTSIZE+4
+            surface.blit( label, ( (DISP_WIDTH/2)-428, local_offset ))
+            local_offset += IntroScreen.FONTSIZE+4
 
         #label final
-        label = self.font.render( substr, 1, (0, 255, 0) )
-        surface.blit( label, (0, local_offset ))
+        #label = self.font.render( substr, 1, (0, 255, 0) )
+        #surface.blit( label, (0, local_offset ))
         
