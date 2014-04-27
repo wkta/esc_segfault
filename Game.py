@@ -27,7 +27,7 @@ class Game:
 
     def __init__(self):
         pygame.init()
-        Game.pl = Player( 0, 0 )  #TODO :  position realiste
+        Game.pl = Player( 0,0)  #TODO :  position realiste
 
         self.prepareNewState( )
         self.updateState()
@@ -49,8 +49,10 @@ class Game:
             Game.pl.setEnviron( IntroScreen("hoj hoj hoj")  )
         elif(self.future_state==Game.ST_GAME_FALL):
             Game.pl.setEnviron( PitfallLevel() )
+            Game.pl.setXY( DISP_WIDTH/2, DISP_HEIGHT/2  )
         elif(self.future_state==Game.ST_PLATEFORMER):
             Game.pl.setEnviron( DynamicLevel() )
+            Game.pl.setXY( DISP_WIDTH/2, 0)
         elif(self.future_state==Game.ST_QUIT):
             pass
         else:
@@ -138,7 +140,6 @@ class Game:
     def playFall(self,time):
         if( Game.pl.environ.hasFallEnded() ):
             self.prepareNewState( Game.ST_PLATEFORMER)
-        Game.pl.environ.updateEntities()
         self.refreshScreen()
 
     def playPlateformer(self, time ):
@@ -174,6 +175,7 @@ class Game:
         Game.pl.environ.markToDisplay( Game.window )
         if( self.state==Game.ST_PLATEFORMER ):
             Game.sk_bar.markToDisplay(Game.window)
+        if( self.state==Game.ST_PLATEFORMER or self.state==Game.ST_GAME_FALL):
             Game.pl.markToDisplay( Game.window ) 
         # TODO cest le joueur qui pourrait declencher le declencehement du dessin du terrain
         pygame.display.flip() 
