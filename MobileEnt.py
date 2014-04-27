@@ -64,11 +64,3 @@ class MobileEnt(GameEntity):
 
 	def get_movement(self):
 		return(self.movement)
-
-	def markToDisplay(self, window, pl_y_game):
-		x, y = self.get_pos()
-		width, height = self.get_size()
-		x_screen, y_screen = game_to_scr_coord(x, y, pl_y_game)
-		pygame.draw.rect(window, self.get_color(),
-			pygame.Rect(x_screen, y_screen, width, height))
-		pass
