@@ -21,10 +21,10 @@ class DynamicLevel(Level):
         self.generateBonus()
 
         self.xrand_temp = DISP_WIDTH/2
-        for i in range(1,1000):
-            self.xrand = random.randint(0,800)
-            while (abs(self.xrand-self.xrand_temp)>695):
-                self.xrand = random.randint(0,800)
+        for i in range(1,50):
+            self.xrand = random.randint(0,DISP_WIDTH-SIZE_SK_BAR-192 )
+            while (abs(self.xrand-self.xrand_temp)>700):
+                self.xrand = random.randint(0,900)
             self.x_plat_list.append(self.xrand)
             self.y_plat_list.append(i*100 + random.randint(0,10))
             self.xrand_temp = self.xrand
@@ -74,11 +74,12 @@ class DynamicLevel(Level):
         self.entity_list = list()
 
     def markToDisplay( self, window):
+        window.fill(  pygame.Color('black') )
         super(DynamicLevel,self).markToDisplay( window)
 
         #affichage du sol
         x_screen, y_screen = game_to_scr_coord( 0,0, self.pl_y_game )
-        pygame.draw.rect( window, pygame.Color('BLACK'),
+        pygame.draw.rect( window, pygame.Color('darkgray'),
             pygame.Rect(x_screen, y_screen, DISP_WIDTH, DISP_HEIGHT/2 )  )
         #affichage des bonus
         if self.current_bonus.visible:

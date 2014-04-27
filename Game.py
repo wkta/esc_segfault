@@ -19,6 +19,7 @@ class Game:
     ST_INTRO = 0
     ST_PLATEFORMER = 1
     ST_GAME_OVER = 2
+    ST_GAME_FALL = 3
 
     def __init__(self):
         pygame.init()
@@ -86,9 +87,11 @@ class Game:
                         Game.pl.stopMoving()
 
             if(  isinstance(Game.pl.environ, PitfallLevel)):
+                self.state = Game.ST_GAME_FALL
                 if( Game.pl.environ.hasFallEnded() ):
                     del Game.pl.environ
                     Game.pl.setEnviron( DynamicLevel()  )
+                    self.state = Game.ST_PLATEFORMER
 
             now = pygame.time.get_ticks()
             if now - last_ref > Fdelay:
@@ -98,11 +101,11 @@ class Game:
                 self.refreshScreen()
 
     def refreshScreen(self ):
-        Game.window.fill(  pygame.Color('BurlyWood') )
-        Game.pl.markToDisplay( Game.window ) 
-        Game.sk_bar.markToDisplay(Game.window)
-        # TODO cest le joueur qui pourrait declencher le declencehement du dessin du terrain
         Game.pl.environ.markToDisplay( Game.window )
+        if(not self.state==Game.ST_GAME_FALL ):
+            Game.sk_bar.markToDisplay(Game.window)
+            Game.pl.markToDisplay( Game.window ) 
+        # TODO cest le joueur qui pourrait declencher le declencehement du dessin du terrain
         pygame.display.flip() 
           
 

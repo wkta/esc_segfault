@@ -3,7 +3,7 @@ FPS = 33
 DISP_WIDTH = 1024
 DISP_HEIGHT = 600
 SIZE_SK_BAR = 64
-DEBUG_RECTS= True
+DEBUG_RECTS= False
 
 def game_to_scr_coord(x_game, y_game, pl_y_game):
     return (
