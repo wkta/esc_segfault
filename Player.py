@@ -55,7 +55,7 @@ class Player(GameEntity):
         else:
             #simulates inertia
             if ( abs(self.vx)>0.1 ):
-                self.vx *= 0.97
+                self.vx *= 0.9
             else:
                 self.vx = 0.  #repos
 
@@ -83,7 +83,8 @@ class Player(GameEntity):
             self.in_air=True  # falling down
 
     def jump(self):
-        self.vy += Player.PUSH_POWER
+        if (self.in_air == False):
+            self.vy += Player.PUSH_POWER
         self.in_air = True
 
     def markToDisplay(self, surface):
