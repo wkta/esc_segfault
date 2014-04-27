@@ -1,6 +1,7 @@
 from Level import Level
 from Matrix import Matrix
 import pygame
+import random
 from global_vars import *
 from SkillBox import SkillBox
 
@@ -14,11 +15,6 @@ class PitfallLevel(Level):
         self.debut_descente = pygame.time.get_ticks()
         self.val_fin_chute = self.debut_descente + 5000
         self.entity_list = list()
-        #ajout d'entites fait ici, mais a modifier
-        i = 0
-        while i < 60:
-            self.entity_list.append(Matrix())
-            i += 1
         self.x_plat_list = list()
         self.y_plat_list = list()
         self.current_bonus = SkillBox(-1000,-1000)
@@ -30,7 +26,16 @@ class PitfallLevel(Level):
         return False
 
     def updateEntities(self ):
+        if not random.randint(0, 3):
+            i = 0
+            rand = random.randint(1, 10)
+            while i < rand:
+                self.entity_list.append(Matrix())
+                i+=1
         for el in self.entity_list:
+            if el.get_pos()[1] < -(el.get_size()[1]):
+                el.__del__()
+                
             el.update()
         pass
 

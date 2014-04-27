@@ -138,6 +138,7 @@ class Game:
     def playFall(self,time):
         if( Game.pl.environ.hasFallEnded() ):
             self.prepareNewState( Game.ST_PLATEFORMER)
+        Game.pl.environ.updateEntities()
         self.refreshScreen()
 
     def playPlateformer(self, time ):
