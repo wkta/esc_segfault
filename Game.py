@@ -68,6 +68,10 @@ class Game:
                     self.affich_new_plat = False
                     self.y_last_affich = Game.pl.y_game
                     #print(len(Game.pl.environ.entity_list))
+                Game.pl.environ.current_bonus.collide(Game.pl)
+                if not Game.pl.environ.current_bonus.visible:
+                    Game.pl.environ.current_bonus = None
+                    Game.pl.environ.generateBonus()
             #fin gestion plateformes
                     
             for event in pygame.event.get(): 
@@ -106,10 +110,7 @@ class Game:
             now = pygame.time.get_ticks()
             if now - last_ref > Fdelay:
                 Game.pl.updatePosition()
-                Game.pl.environ.current_bonus.collide(Game.pl)
-                if not Game.pl.environ.current_bonus.visible:
-                    Game.pl.environ.current_bonus = None
-                    Game.pl.environ.generateBonus()
+                
                 self.refreshScreen()
 
     def refreshScreen(self ):
