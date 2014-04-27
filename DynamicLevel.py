@@ -21,10 +21,10 @@ class DynamicLevel(Level):
         self.generateBonus()
 
         self.xrand_temp = DISP_WIDTH/2
-        for i in range(1,50):
-            self.xrand = random.randint(0,900)
-            while (abs(self.xrand-self.xrand_temp)>700):
-                self.xrand = random.randint(0,900)
+        for i in range(1,1000):
+            self.xrand = random.randint(0,800)
+            while (abs(self.xrand-self.xrand_temp)>695):
+                self.xrand = random.randint(0,800)
             self.x_plat_list.append(self.xrand)
             self.y_plat_list.append(i*100 + random.randint(0,10))
             self.xrand_temp = self.xrand
