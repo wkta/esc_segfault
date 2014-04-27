@@ -4,6 +4,8 @@ import pygame
 from Player import Player
 from SkillBar import SkillBar 
 from time import sleep
+from DynamicLevel import DynamicLevel
+from PitfallLevel import PitfallLevel
 
 from global_vars import *
 
@@ -21,6 +23,8 @@ class Game:
     def __init__(self):
         pygame.init()
         Game.pl = Player( 0, 0 )  #TODO :  position realiste
+        #Game.pl.setEnviron( DynamicLevel()  )
+
         Game.sk_bar = SkillBar( Game.pl )
         Game.window = pygame.display.set_mode( (DISP_WIDTH, DISP_HEIGHT) )
         self.state = Game.ST_PLATEFORMER
@@ -58,11 +62,16 @@ class Game:
                     if event.key == pygame.K_LEFT:
                         Game.pl.stopMoving()
 
+            if(  isinstance(Game.pl.environ, PitfallLevel)):
+                if( Game.pl.environ.hasFallEnded() ):
+                    del Game.pl.environ
+                    Game.pl.setEnviron( DynamicLevel()  )
+
             now = pygame.time.get_ticks()
             if now - last_ref > Fdelay:
                 Game.pl.updatePosition()
-                Game.pl.environ.current_bonus.collide(Game.pl)
-                # TODO affichage des plateformes proches du player
+                #TODO: reparer collisions
+                #Game.pl.environ.current_bonus.collide(Game.pl)
                 self.refreshScreen()
 
     def refreshScreen(self ):
