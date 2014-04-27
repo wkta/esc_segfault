@@ -15,7 +15,7 @@ class DynamicLevel:
         self.pl_y_game = 30. # le joueur commence au niveau 0
 
         self.xrand_temp = 512
-        for i in range(1,100):
+        for i in range(1,50):
             self.xrand = random.randint(0,900)
             while (abs(self.xrand-self.xrand_temp)>700):
                 self.xrand = random.randint(0,900)
