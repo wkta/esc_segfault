@@ -66,6 +66,12 @@ class DynamicLevel:
     def generatePlatform(self, x_game_start, y_game):
         new_plat = Platform( x_game_start,  y_game)
         self.entity_list.append( new_plat)
+        
+    def removePlatform(self, plat_to_remove):
+        self.entity_list.remove( plat_to_remove)
+        
+    def removeAllPlatform(self):
+        self.entity_list = list()
 
     def markToDisplay( self, window):
         #affichage des plateformes

@@ -22,6 +22,10 @@ class Game:
         Game.pl = Player( 0, 0 )  #TODO :  position realiste
         Game.window = pygame.display.set_mode( (DISP_WIDTH, DISP_HEIGHT) )
         self.state = Game.ST_PLATEFORMER
+        self.x_plat_list = list()
+        self.y_plat_list = list()
+        self.affich_new_plat = True
+        self.y_last_affich = 0
 
     def __del__(self):
         del Game.pl
@@ -33,8 +37,21 @@ class Game:
         prog_done = False
         last_ref = pygame.time.get_ticks()
         self.refreshScreen()
+        self.x_plat_list = Game.pl.environ.x_plat_list
+        self.y_plat_list = Game.pl.environ.y_plat_list
+        
         while not prog_done:
-
+        
+            if (abs(self.y_last_affich - Game.pl.y_game)>(600/2)):
+                self.affich_new_plat = True
+            if (self.affich_new_plat):
+                Game.pl.environ.removeAllPlatform()
+                for y_plat in self.y_plat_list:
+                    if (abs(y_plat - Game.pl.y_game)<(600)):
+                        Game.pl.environ.generatePlatform(self.x_plat_list[self.y_plat_list.index(y_plat)], y_plat)
+                self.affich_new_plat = False
+                self.y_last_affich = Game.pl.y_game
+                    
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT: 
                     prog_done = True
