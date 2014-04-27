@@ -56,9 +56,9 @@ class Game:
                     if event.key == pygame.K_LEFT:
                         Game.pl.stopMoving()
 
-            Game.pl.updatePosition()
             now = pygame.time.get_ticks()
             if now - last_ref > Fdelay:
+                Game.pl.updatePosition()
                 self.refreshScreen()
 
     def refreshScreen(self ):

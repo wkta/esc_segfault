@@ -11,7 +11,7 @@ class MobileEnt(GameEntity):
 		self.w, self.h = 48, 48 #TODO : des tailles variables ? Laisser les sous classes s'en charger et gérer les collisions dedans ?
 		self.vx, self.vy = 0, 0
 		self.x_movement, self.y_movement = 0, 0
-		self.color = pygame.Color('WHITE')
+		self.color = pygame.Color('GREEN')
 		pass
 
 	def set_pos(self, x, y):

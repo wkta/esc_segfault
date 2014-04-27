@@ -35,11 +35,12 @@ class Player(GameEntity):
         self.moving_left  = False
 
     def setXY( self, new_x, new_y ):
-        self.x_game = new_x
-        self.y_game = new_y
+        #super(Player,self).setXY(new_x, new_y )
+        GameEntity.setXY(self, new_x, new_y)
         self.environ.scrollTo( new_y)
 
     def updatePosition(self):
+        self.environ.updateEntities()
 
         #accelerating horizontaly
         if( self.moving_right ):

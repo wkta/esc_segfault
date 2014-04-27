@@ -4,10 +4,11 @@
 import pygame
 import os
 from math import ceil
+from global_vars import *
 
 loaded_data_img = dict()
 
-class GameEntity:
+class GameEntity(object):
     """sert a decrire une entite du jeu"""
 
     #TODO :faut -il avoir un x, y _jeu dans cette classe ?
@@ -37,6 +38,33 @@ class GameEntity:
 
     def changeWay(self):
         self.image = pygame.transform.flip(self.image, 1, 0)
+
+    def collide(self, entite):
+        #TODO: utiliser la fonction getRect
+        x_ent, y_ent = entite.getXY()
+        if abs(self.x_game - x_ent <30):
+            return True
+        if abs(self.y_game - y_ent <30):
+            return True
+
+    def getRect(self):
+        pass
+
+    def setXY(self, new_x, new_y ):
+        self.x_game = new_x
+        self.y_game = new_y
+
+    def getXY(self):
+        return self.x_game,self.y_game
+
+    def markToDisplay(self, window, pl_y_game):
+		x_screen, y_screen = game_to_scr_coord( self.x_game, self.y_game, pl_y_game )
+		pygame.draw.rect( window, pygame.Color('BROWN'),
+            pygame.Rect(x_screen, y_screen, 40,40)  )
+    
+    def updatePosition(self, surface):
+        #by default, we do nothing to update the position of the game entity
+        pass
 
 
 def load_image(name ):
