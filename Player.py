@@ -155,10 +155,10 @@ class Player(GameEntity):
 
     def getScore(self):
         n_score = HEIGHT_VICTORY - int(self.y_game)
-        if( abs(n_score-self.prev_score)>=10):
-            self.prev_score = n_score
-            if(n_score<0):
-                n_score =0
-            return n_score
-        return self.prev_score
+        if(n_score<=0):
+            return 0
+        if( abs(n_score-self.prev_score)<15 ):
+            return self.prev_score
+        self.prev_score = n_score
+        return n_score
 

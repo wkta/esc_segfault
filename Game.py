@@ -46,7 +46,7 @@ class Game:
         self.prepareNewState( )
         self.updateState()
 
-        self.last_refr = pygame.time.get_ticks()
+        #self.last_refr = pygame.time.get_ticks()
 
         Game.sk_bar = SkillBar( Game.pl )
         Game.window = pygame.display.set_mode( (DISP_WIDTH, DISP_HEIGHT) )
@@ -242,7 +242,7 @@ class Game:
 
         # TODO cest le joueur qui pourrait declencher le declencehement du dessin du terrain
         pygame.display.flip() 
-        self.last_refr = pygame.time.get_ticks()
+        #self.last_refr = pygame.time.get_ticks()
           
 
 g = Game()
