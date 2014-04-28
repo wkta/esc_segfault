@@ -56,11 +56,11 @@ class GameEntity(object):
         #TODO: utiliser la fonction getRect
         x_ent, y_ent = entite.getXY()
         if (abs(self.x_game - x_ent )<20 and abs(self.y_game - y_ent) <20):
-            if self.visible == True:
-                entite.list_bonus.append(self.skill_id)
-                print(entite.list_bonus)
+            if self.visible == True:  #implique aussi que cest un skill box
+                entite.dict_bonus[ self.skill_id ]=True
             self.visible = False
             return True
+        return False
 
     def getRect(self):
         return self.rect

@@ -10,17 +10,23 @@ V_MAX_HORZ = 2.
 DELTA_V_HORZ = 0.04
 
 class Player(GameEntity):
-    LETHAL_SPEED = 30.
+    LETHAL_SPEED = 40.
     BASECOLOR = pygame.Color('darkred')
     BASE_SPEED = 2.
     SIZE = 16
     PUSH_POWER = 32.
     GRAVITE = 2.
     RALENTI = 16.
-    HEIGHT_VICTORY = 600 * 10  # if you reach this, you win
+    HEIGHT_VICTORY = 600 * 27  # if you reach this, you win
+
+    def dist(self,ent):
+        return abs( ent.y_game - self.y_game)
 
     def setEnviron(self, env):
         self.environ = env
+
+    def hasSkill(self, id_sk ):
+        return (id_sk in self.dict_bonus.keys() )
 
     def __init__(self, x_game, y_game ):
         self.environ=PitfallLevel()
@@ -29,9 +35,11 @@ class Player(GameEntity):
         self.vx, self.vy = 0., 0.
         self.moving_right = self.moving_left = False
         self.in_air = False
+        self.megaj = False
+
         self.time_in_air = 0.
-        self.initGraphics('ludumdare-croquis-chevalier.png',6., -64, -185)
-        self.list_bonus = list()
+        self.initGraphics('ludumdare-croquis-chevalier.png',6., -64, -180)
+        self.dict_bonus = dict()
         self.is_dead = False
         self.has_won = False
 
@@ -79,11 +87,13 @@ class Player(GameEntity):
 
         if (self.in_air):
             self.vy -= (Player.GRAVITE/Player.RALENTI)
-            self.setXY( self.x_game + self.vx,
-                self.y_game + \
+
+            y_future = self.y_game + \
                 self.vy / Player.RALENTI - \
                 ( Player.GRAVITE*(1./Player.RALENTI)*(self.time_in_air/Player.RALENTI))/2
-                )
+            if(y_future < self.y_game ):
+                self.megaj= False
+            self.setXY( self.x_game + self.vx, y_future )
 
             #test pr victoire
             if(self.y_game > Player.HEIGHT_VICTORY ):
@@ -93,8 +103,11 @@ class Player(GameEntity):
         else:
             self.setXY( self.x_game + self.vx, self.y_game )
 
+        if( self.megaj): #ignore collisions when megajumping
+            return
+
         value_fl = self.environ.getValueFloor( self.x_game, self.y_game )
-        if (self.y_game <= value_fl): # La valeur qu'il atteind a la fin d'une chute
+        if ( self.y_game <= value_fl): # La valeur qu'il atteind a la fin d'une chute
             #collision avec sol/plateforme
             if( abs(self.vy) > Player.LETHAL_SPEED ): #mort
                 print "You just died."
@@ -105,6 +118,23 @@ class Player(GameEntity):
             self.time_in_air = 0.
         else:
             self.in_air=True  # falling down
+
+    def megajump(self):
+        if( len(self.dict_bonus.keys()) ==0):
+            return
+        self.vy += Player.PUSH_POWER*3
+        self.in_air = True
+        self.megaj = True
+
+        if( 3 in self.dict_bonus ):
+            del self.dict_bonus[3]
+            return
+        if( 2 in self.dict_bonus ):
+            del self.dict_bonus[2]
+            return
+        if( 1 in self.dict_bonus ):
+            del self.dict_bonus[1]
+            return
 
     def jump(self):
         if (self.in_air == False):

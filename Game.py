@@ -57,7 +57,8 @@ class Game:
             raise Exception('no future state')
 
         if(self.future_state==Game.ST_INTRO):
-            Game.pl.setEnviron( IntroScreen("                                  In this Ludum Dare#29 game,you are the brave hero who must save the princess!! Unfortunately, due  to drunk python coders the game is   super bugged.  While  you    walk towards her, you bump into a BIG  bug and fall into the depths of    the  software,beneath the surface  ..."
+            Game.pl.setEnviron( IntroScreen("                                  In this Ludum Dare#29 game,you are the brave hero who must save the princess!! Unfortunately, due  to drunk python coders the game is   super bugged.  While  you    walk towards her, you bump into a BIG  bug and fall into the depths of    the  software,beneath the surface ..."+\
+"(collect cubes and press SPACE for megajump)"
             ,  34
             ,84 )
                 )
@@ -142,6 +143,8 @@ class Game:
         if (Game.pl.isDead() or Game.pl.hasWon() ):  #controles bloque quand joueur mort/a gagne
             return
         if event.type is pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                Game.pl.megajump()
             if event.key == pygame.K_UP:
                 Game.pl.jump()
             if event.key == pygame.K_RIGHT:
@@ -198,7 +201,7 @@ class Game:
         Game.pl.environ.current_bonus.collide(Game.pl)
         #gestion bonus
         if not Game.pl.environ.current_bonus.visible:
-            if random.randint(1,5000) == 42:
+            if random.randint(1,2200) == 42:  # proba faible
                 Game.pl.environ.generateBonus()
                 x_bonus, y_bonus = Game.pl.environ.current_bonus.getXY()
                 if (Game.pl.y_game-y_bonus>DISP_HEIGHT*2):

@@ -20,7 +20,7 @@ class SkillBox(GameEntity):
     def updatePosition(self):
         #descente progressive des bonus skill
         x_ent,y_ent = self.getXY()
-        super(SkillBox,self).setXY( x_ent,y_ent -0.1)
+        super(SkillBox,self).setXY( x_ent,y_ent -0.4)
     
     #def markToDisplay(self, surface):
         #x_ent,y_ent = self.getXY()
