@@ -17,9 +17,8 @@ class DynamicLevel(Level):
         self.vit_scrolling = 0.
         self.pl_y_game = 30. # le joueur commence au niveau 0
 
-        self.current_bonus = SkillBox(-1000,-1000)
+        self.current_bonus = SkillBox(-DISP_WIDTH, 2*DISP_HEIGHT )
         self.current_bonus.visible = False
-        self.generateBonus()
 
         self.xrand_temp = DISP_WIDTH/2
         for i in range(1,1000):
@@ -34,11 +33,8 @@ class DynamicLevel(Level):
             self.generatePlatform(self.x_plat_list[i], self.y_plat_list[i])
 
     def generateBonus(self):
-        if( self.current_bonus.visible):
-            return
-        else:
-            self.x_bonus = random.randint(0,DISP_WIDTH-SIZE_SK_BAR-192 )
-            self.current_bonus = SkillBox( self.x_bonus, self.pl_y_game+ (DISP_HEIGHT/2) )
+        self.x_bonus = random.randint(0,DISP_WIDTH-SIZE_SK_BAR-192 )
+        self.current_bonus = SkillBox( self.x_bonus, self.pl_y_game+ (DISP_HEIGHT/2) )
 
     def getValueFloor(self, pl_x_game, pl_y_game):
         """retourne position y de la plateform la plus proche"""

@@ -13,7 +13,7 @@ class PitfallLevel(Level):
 
     def __init__(self):
         self.debut_descente = pygame.time.get_ticks()
-        self.val_fin_chute = self.debut_descente + 5000
+        self.val_fin_chute = self.debut_descente + 4500
         self.entity_list = list()
         self.x_plat_list = list()
         self.y_plat_list = list()

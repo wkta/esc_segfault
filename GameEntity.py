@@ -55,7 +55,7 @@ class GameEntity(object):
     def collide(self, entite):
         #TODO: utiliser la fonction getRect
         x_ent, y_ent = entite.getXY()
-        if (abs(self.x_game - x_ent )<20 and abs(self.y_game - y_ent) <20):
+        if (abs(self.x_game - x_ent )<40 and abs(self.y_game - y_ent) <40):
             if self.visible == True:  #implique aussi que cest un skill box
                 entite.dict_bonus[ self.skill_id ]=True
             self.visible = False

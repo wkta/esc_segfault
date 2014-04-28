@@ -10,14 +10,13 @@ V_MAX_HORZ = 2.
 DELTA_V_HORZ = 0.04
 
 class Player(GameEntity):
-    LETHAL_SPEED = 40.
+    LETHAL_SPEED = 41.
     BASECOLOR = pygame.Color('darkred')
     BASE_SPEED = 2.
     SIZE = 16
     PUSH_POWER = 32.
     GRAVITE = 2.
     RALENTI = 16.
-    HEIGHT_VICTORY = 600 * 27  # if you reach this, you win
 
     def dist(self,ent):
         return abs( ent.y_game - self.y_game)
@@ -29,6 +28,7 @@ class Player(GameEntity):
         return (id_sk in self.dict_bonus.keys() )
 
     def __init__(self, x_game, y_game ):
+        self.prev_score = HEIGHT_VICTORY
         self.environ=PitfallLevel()
         self.setXY(x_game,y_game )
         self.YINIT = self.y_game
@@ -71,7 +71,7 @@ class Player(GameEntity):
         if( self.moving_right ):
             if( not abs(self.vx)>V_MAX_HORZ):
                 self.vx +=  DELTA_V_HORZ
-            if(self.vx + self.x_game + self.getWidth() > DISP_WIDTH - SIZE_SK_BAR ): #collision bord droit
+            if(self.vx + self.x_game + self.getWidth()/3 > DISP_WIDTH - SIZE_SK_BAR ): #collision bord droit
                 self.vx = 0
         elif( self.moving_left):
             if( not abs(self.vx)>V_MAX_HORZ):
@@ -96,7 +96,7 @@ class Player(GameEntity):
             self.setXY( self.x_game + self.vx, y_future )
 
             #test pr victoire
-            if(self.y_game > Player.HEIGHT_VICTORY ):
+            if(self.y_game > HEIGHT_VICTORY ):
                 self.has_won = True
                 return
             self.time_in_air += 1.
@@ -109,7 +109,7 @@ class Player(GameEntity):
         value_fl = self.environ.getValueFloor( self.x_game, self.y_game )
         if ( self.y_game <= value_fl): # La valeur qu'il atteind a la fin d'une chute
             #collision avec sol/plateforme
-            if( abs(self.vy) > Player.LETHAL_SPEED ): #mort
+            if( self.vy<0 and self.vy< -Player.LETHAL_SPEED ): #mort
                 print "You just died."
                 self.is_dead = True
             self.y_game = value_fl
@@ -152,4 +152,11 @@ class Player(GameEntity):
                 surface.set_at( (-1+x_screen+a,y_screen+b),sfx_color ) 
                 surface.set_at( (+1+x_screen+a,y_screen+b),sfx_color ) 
                 surface.set_at( (x_screen+a,1+y_screen+b),sfx_color ) 
+
+    def getScore(self):
+        n_score = HEIGHT_VICTORY - int(self.y_game)
+        if( abs(n_score-self.prev_score)>=10):
+            self.prev_score = n_score
+            return n_score
+        return self.prev_score
 

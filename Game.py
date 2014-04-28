@@ -22,7 +22,7 @@ class Game:
     
     TEXT_VICT = "                                  You have won! Congratulations.    You should be able to save the    princess now. Oh. Wait. We forgot to code this part,sorry :) Thanks for playing!                      ***Credits***             " \
         + E_LINE + \
-        "Code:     Thomas Iwaszko                    Antoine                           Alexandre Thilly" +\
+        "Code:     Thomas Iwaszko                    Antoine Favre-Felix               Alexandre Thiry " +\
         E_LINE +\
         "      Graphics:   Fabien Hulot"
 
@@ -35,9 +35,12 @@ class Game:
     ST_QUIT = 9
 
     def __init__(self):
-        self.switch_img = False
+        self.switch_img = False #dirty trick press enter intro screen
 
         pygame.init()
+        self.fake_depth = 0
+        self.font = pygame.font.SysFont("courier", 24)  #will be used to disp score
+
         Game.pl = Player( 0,0)  #TODO :  position realiste
 
         self.prepareNewState( )
@@ -58,7 +61,7 @@ class Game:
 
         if(self.future_state==Game.ST_INTRO):
             Game.pl.setEnviron( IntroScreen("                                  In this Ludum Dare#29 game,you are the brave hero who must save the princess!! Unfortunately, due  to drunk python coders the game is   super bugged.  While  you    walk towards her, you bump into a BIG  bug and fall into the depths of    the  software,beneath the surface ..."+\
-"(collect cubes and press SPACE for megajump)"
+"(collect cubes and press  UP  for  megajump)"
             ,  34
             ,84 )
                 )
@@ -143,9 +146,10 @@ class Game:
         if (Game.pl.isDead() or Game.pl.hasWon() ):  #controles bloque quand joueur mort/a gagne
             return
         if event.type is pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                Game.pl.megajump()
             if event.key == pygame.K_UP:
+                if(not Game.pl.megaj ):
+                    Game.pl.megajump()
+            if event.key == pygame.K_SPACE:
                 Game.pl.jump()
             if event.key == pygame.K_RIGHT:
                 Game.pl.startMovingRight()
@@ -201,10 +205,10 @@ class Game:
         Game.pl.environ.current_bonus.collide(Game.pl)
         #gestion bonus
         if not Game.pl.environ.current_bonus.visible:
-            if random.randint(1,2200) == 42:  # proba faible
+            if random.randint(0,4096) == 42:  # proba faible
                 Game.pl.environ.generateBonus()
                 x_bonus, y_bonus = Game.pl.environ.current_bonus.getXY()
-                if (Game.pl.y_game-y_bonus>DISP_HEIGHT*2):
+                if (y_bonus+(DISP_HEIGHT) < Game.pl.y_game ):
                     Game.pl.environ.current_bonus.visible = False
         #fin gestion bonus
         #fin gestion plateformes
@@ -217,10 +221,25 @@ class Game:
 
     def refreshScreen(self):
         Game.pl.environ.markToDisplay( Game.window )
-        if( self.state==Game.ST_PLATEFORMER ):
+        cond1 = self.state==Game.ST_PLATEFORMER
+        cond2 = self.state==Game.ST_GAME_FALL
+        if(cond1  ):
             Game.sk_bar.markToDisplay(Game.window)
-        if( self.state==Game.ST_PLATEFORMER or self.state==Game.ST_GAME_FALL):
+            #ajout score reel
+            real_score = Game.pl.getScore()
+            label = self.font.render( str(real_score)+" meters below the game's surface"  , 1, (0, 255, 0) )
+            Game.window.blit( label, ( DISP_WIDTH-532, 16 ) )
+
+        if(cond2):
+            #ajout score fake
+            if(self.fake_depth<HEIGHT_VICTORY ):
+                self.fake_depth+=37
+            label = self.font.render( str(self.fake_depth)+" meters below the game's surface"  , 1, (0, 255, 0) )
+            Game.window.blit( label, ( DISP_WIDTH-532, 16 ) )
+            
+        if( cond1 or cond2 ):
             Game.pl.markToDisplay( Game.window ) 
+
         # TODO cest le joueur qui pourrait declencher le declencehement du dessin du terrain
         pygame.display.flip() 
         self.last_refr = pygame.time.get_ticks()
