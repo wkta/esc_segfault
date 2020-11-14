@@ -79,18 +79,27 @@ class GameEntity(object):
             pygame.draw.rect(window, pygame.Color('RED') ,
                 (x_screen, y_screen-self.getRect().height, self.getRect().width, self.getRect().height ) )
 
-        # affichage objet en lui meme
-        if(self.image==None):
+        # association (pour fixer un bug rapidement) entre couleur str et tuple(r,g,b)
+        fast_convert = {
+            'BLUE': (10, 10, 245),
+            'GREEN': (10, 220, 25),
+            'YELLOW': (88, 88, 3)
+        }
+
+        if self.image is None and hasattr(self, 'skill_id'):
             if self.skill_id == 1:
                 self.col = 'BLUE'
-            if self.skill_id == 2:
+            elif self.skill_id == 2:
                 self.col = 'GREEN'
-            if self.skill_id == 3:
+            elif self.skill_id == 3:
                 self.col = 'YELLOW'
-            pygame.draw.rect( window, pygame.Color(self.col), pygame.Rect(x_screen, y_screen-40, 40,40)  )
+            else:
+                print('** warning: skill_id= {}'.format(self.skill_id))
+            pygame.draw.rect(window, fast_convert[self.col], (x_screen, y_screen-40, 40, 40))
             return
-        window.blit( self.image,
-            (x_screen+self.offset_x, y_screen+self.offset_y ) ) 
+
+        blit_target = (x_screen+self.offset_x, y_screen+self.offset_y)
+        window.blit(self.image, blit_target)
 
     def updatePosition(self, surface):
         #by default, we do nothing to update the position of the game entity
@@ -101,8 +110,8 @@ def load_image(name ):
     fullname = os.path.join('assets', name)
     try:
         image = pygame.image.load(fullname)
-    except pygame.error, message:
-        print 'Cannot load image:', fullname
-        raise SystemExit, message
+    except pygame.error as message:
+        print('Cannot load image:'+ fullname)
+        print(message)
+        raise SystemExit
     return image, image.get_rect()
-

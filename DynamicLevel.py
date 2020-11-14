@@ -1,23 +1,26 @@
-import pygame
 import random
-from Platform import Platform
-from global_vars import *
-from SkillBox import SkillBox
 
-from Level import Level 
+import pygame
+
+from Level import Level
+from Platform import Platform
+from SkillBox import SkillBox
+from global_vars import *
+
 
 class DynamicLevel(Level):
     """modelise le decor en gerant le scrolling  pour quil soit toujours centre sur le joueur"""
 
+
     VIT_MAX_SCROLLING = 40
 
     def __init__(self):
-        super(DynamicLevel,self).__init__()
+        super(DynamicLevel, self).__init__()
         self.amount_scroll = 0.
         self.vit_scrolling = 0.
-        self.pl_y_game = 30. # le joueur commence au niveau 0
+        self.pl_y_game = 30.  # le joueur commence au niveau 0
 
-        self.current_bonus = SkillBox(-DISP_WIDTH, 2*DISP_HEIGHT )
+        self.current_bonus = SkillBox(-DISP_WIDTH, 2*DISP_HEIGHT)
         self.current_bonus.visible = False
 
         self.xrand_temp = DISP_WIDTH/2
@@ -33,8 +36,10 @@ class DynamicLevel(Level):
             self.generatePlatform(self.x_plat_list[i], self.y_plat_list[i])
 
     def generateBonus(self):
-        self.x_bonus = random.randint(0,DISP_WIDTH-SIZE_SK_BAR-192 )
-        self.current_bonus = SkillBox( self.x_bonus, self.pl_y_game+ (DISP_HEIGHT/2) )
+        self.x_bonus = x = random.randint(0, DISP_WIDTH-SIZE_SK_BAR-192 )
+        y = self.pl_y_game+ (DISP_HEIGHT/2)
+        self.current_bonus = SkillBox( self.x_bonus, y)
+        return x, y
 
     def getValueFloor(self, pl_x_game, pl_y_game):
         """retourne position y de la plateform la plus proche"""
@@ -80,10 +85,14 @@ class DynamicLevel(Level):
         x_screen, y_screen = game_to_scr_coord( 0,0, self.pl_y_game )
         pygame.draw.rect( window, pygame.Color('darkgray'),
             pygame.Rect(x_screen, y_screen, DISP_WIDTH, DISP_HEIGHT/2 )  )
+
         #affichage des bonus
-        if self.current_bonus.visible:
+        if self.current_bonus and self.current_bonus.visible:
             self.current_bonus.markToDisplay( window, self.pl_y_game )
 
     def updateEntities(self ):
-        self.current_bonus.updatePosition()
-
+        if self.current_bonus:
+            self.current_bonus.updatePosition()
+            # opérateur '<' car l'altitude croit quand on s'rapporche du haut de l'ecran
+            if self.current_bonus.y_game < self.pl_y_game-950:
+                self.current_bonus = None  # destruction
